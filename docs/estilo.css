@@ -61,6 +61,12 @@ button { font: inherit; cursor: pointer; }
                 border-radius: 999px; font-weight: 600; font-size: .92rem; }
 .chips button.on { border-color: var(--verde); background: var(--verde-claro); color: var(--verde-osc); }
 @media (prefers-color-scheme: dark) { .chips button.on { color: var(--verde); } }
+.chip-input { display: inline-flex; align-items: center; gap: 4px; border: 1.5px dashed var(--borde); border-radius: 999px;
+              padding: 2px 12px 2px 4px; background: var(--fondo); font-weight: 600; }
+.chip-input:focus-within, .chip-input.on { border-style: solid; border-color: var(--verde); background: var(--verde-claro); }
+.chip-input input { width: 4.2em; border: 0; background: transparent; color: var(--texto); font: inherit; font-weight: 700;
+                    text-align: right; padding: 6px 2px; }
+.chip-input input:focus { outline: none; }
 .mas summary { cursor: pointer; color: var(--suave); font-weight: 600; font-size: .92rem; }
 .rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 12px; }
 .rejilla label { display: flex; flex-direction: column; gap: 4px; font-size: .88rem; font-weight: 600; }

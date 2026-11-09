@@ -23,16 +23,22 @@ function estado(texto, error = false) {
 // ---------- preferencias (se recuerdan en este navegador) ----------
 function cargarPrefs() {
   try { Object.assign(prefs, JSON.parse(localStorage.getItem("gqc-prefs") || "{}")); } catch { /* sin almacenamiento */ }
-  $("litros").value = prefs.litros;
-  $("consumo").value = prefs.consumo;
+  $("litros").value = String(prefs.litros).replace(".", ",");
+  $("consumo").value = String(prefs.consumo).replace(".", ",");
   document.querySelectorAll(".chips").forEach((g) => marcarChip(g, String(prefs[g.dataset.campo])));
 }
 function guardarPrefs() {
   try { localStorage.setItem("gqc-prefs", JSON.stringify(prefs)); } catch { /* sin almacenamiento */ }
 }
 function marcarChip(grupo, valor) {
-  grupo.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.v === valor));
+  let alguno = false;
+  grupo.querySelectorAll("button").forEach((b) => { const on = +b.dataset.v === +valor || b.dataset.v === valor; b.classList.toggle("on", on); alguno ||= on; });
+  const libre = grupo.querySelector(".chip-input");
+  if (libre) libre.classList.toggle("on", !alguno);   // cantidad a mano: se resalta la casilla
 }
+const num = (v) => parseFloat(String(v).replace(",", "."));
+let espera = null;
+const recalcularPronto = () => { clearTimeout(espera); espera = setTimeout(calcularYMostrar, 450); };
 
 // ---------- datos ----------
 async function cargarDatos() {
@@ -116,8 +122,9 @@ async function calcularYMostrar() {
   try {
     const textoD = $("destinoTexto").value.trim();
     const destino = textoD ? await geocodificar(textoD) : null;
-    prefs.litros = +$("litros").value || 40;
-    prefs.consumo = +$("consumo").value || 6.5;
+    const l = num($("litros").value), c = num($("consumo").value);
+    prefs.litros = l > 0 && l <= 150 ? l : 40;
+    prefs.consumo = c > 0 && c <= 30 ? c : 6.5;
     guardarPrefs();
     const res = calcular(estacionesDe(prefs.combustible), origen, destino, {
       litros: prefs.litros, consumo: prefs.consumo, radioKm: +$("radio").value || 15, valorHora: +$("valorHora").value || 0,
@@ -230,14 +237,15 @@ document.querySelectorAll(".chips").forEach((grupo) => grupo.addEventListener("c
   const campo = grupo.dataset.campo;
   prefs[campo] = campo === "combustible" ? b.dataset.v : +b.dataset.v;
   marcarChip(grupo, b.dataset.v);
-  if (campo !== "combustible") $(campo).value = b.dataset.v;
+  if (campo !== "combustible") $(campo).value = b.dataset.v.replace(".", ",");
   guardarPrefs();
   calcularYMostrar();
 }));
-["litros", "consumo"].forEach((id) => $(id).addEventListener("change", () => {
-  document.querySelectorAll(`.chips[data-campo="${id}"]`).forEach((g) => marcarChip(g, String(+$(id).value)));
-  calcularYMostrar();
+["litros", "consumo"].forEach((id) => $(id).addEventListener("input", () => {
+  document.querySelectorAll(`.chips[data-campo="${id}"]`).forEach((g) => marcarChip(g, String(num($(id).value))));
+  recalcularPronto();
 }));
+$("litros").addEventListener("click", (e) => e.stopPropagation());
 ["radio", "valorHora"].forEach((id) => $(id).addEventListener("change", calcularYMostrar));
 $("destinoTexto").addEventListener("change", calcularYMostrar);
 $("btnUbicacion").addEventListener("click", miUbicacion);

@@ -56,6 +56,10 @@
           <button type="button" data-v="20">20 L</button>
           <button type="button" data-v="40" class="on">40 L</button>
           <button type="button" data-v="55">Lleno (55 L)</button>
+          <label class="chip-input" title="Litros exactos">
+            <input id="litros" type="text" inputmode="decimal" maxlength="5" value="40" aria-label="Litros exactos">
+            <span>L</span>
+          </label>
         </div>
       </div>
       <div class="grupo">
@@ -72,8 +76,7 @@
           <label>¿Vas de camino a algún sitio?
             <input id="destinoTexto" type="text" placeholder="Destino (opcional)" autocomplete="off">
             <small>Si lo pones, cuenta solo lo que alarga tu ruta.</small></label>
-          <label>Litros exactos <input id="litros" type="number" min="5" max="150" step="1" value="40"></label>
-          <label>Consumo (L/100 km) <input id="consumo" type="number" min="2" max="25" step="0.1" value="6.5"></label>
+          <label>Consumo exacto (L/100 km) <input id="consumo" type="text" inputmode="decimal" maxlength="4" value="6,5"></label>
           <label>Buscar hasta (km) <input id="radio" type="number" min="2" max="60" step="1" value="15"></label>
           <label>Lo que vale tu tiempo (€/h) <input id="valorHora" type="number" min="0" max="200" step="1" value="0">
             <small>0 = no contar el tiempo.</small></label>
