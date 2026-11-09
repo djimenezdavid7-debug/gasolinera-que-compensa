@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: "22"
       - name: Tests del cálculo
-        run: node --test tests/
+        run: node --test tests/calculo.test.mjs
       - name: Descargar precios oficiales
         run: python scripts/actualizar.py docs/data/estaciones.json
       - uses: actions/configure-pages@v5

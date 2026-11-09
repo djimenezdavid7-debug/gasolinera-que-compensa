@@ -34,7 +34,7 @@ Es una aproximación honesta: no sustituye a un navegador GPS, pero sirve para n
 |---|---|
 | `docs/` | La web (HTML + JS sin frameworks). `calculo.js` es el núcleo del cálculo. |
 | `scripts/actualizar.py` | Descarga la API oficial y la compacta (12 MB → ~1 MB). Solo biblioteca estándar. |
-| `tests/` | Tests del cálculo (`node --test tests/`). |
+| `tests/` | Tests del cálculo (`node --test tests/calculo.test.mjs`). |
 | `.github/workflows/publicar.yml` | Cada hora: tests + precios nuevos + publicación en GitHub Pages. |
 
 ## Usarlo en local
@@ -42,7 +42,7 @@ Es una aproximación honesta: no sustituye a un navegador GPS, pero sirve para n
 ```bash
 python scripts/actualizar.py          # descarga los precios a docs/data/estaciones.json
 python -m http.server -d docs 8000    # abre http://localhost:8000
-node --test tests/                    # tests
+node --test tests/calculo.test.mjs                 # tests
 ```
 
 ## Ideas siguientes
