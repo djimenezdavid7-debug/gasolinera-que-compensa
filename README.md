@@ -33,6 +33,7 @@ Es una aproximación honesta: no sustituye a un navegador GPS, pero sirve para n
 | Ruta | Qué es |
 |---|---|
 | `docs/` | La web (HTML + JS sin frameworks). `calculo.js` es el núcleo del cálculo. |
+| `scripts/og.py` | Genera `docs/og.png`, la imagen al compartir el enlace. |
 | `scripts/actualizar.py` | Descarga la API oficial y la compacta (12 MB → ~1 MB). Solo biblioteca estándar. |
 | `tests/` | Tests del cálculo (`node --test tests/calculo.test.mjs`). |
 | `.github/workflows/publicar.yml` | Cada hora: tests + precios nuevos + publicación en GitHub Pages. |
