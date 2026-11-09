@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gasolinera que compensa</title>
+  <meta name="description" content="La gasolinera más barata del cartel no siempre es la que te ahorra dinero. Calcula cuál te sale más barata de verdad contando el desvío. Datos oficiales del Ministerio.">
+  <meta property="og:title" content="⛽ ¿La gasolinera más barata te sale más cara?">
+  <meta property="og:description" content="Calcula cuál te ahorra dinero DE VERDAD contando el desvío. Gratis, sin registro, datos oficiales.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header>
+    <h1>⛽ Gasolinera que <span>compensa</span></h1>
+    <p class="sub">La más barata del cartel no siempre es la que te ahorra dinero. Aquí se cuenta también el desvío.</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="fila">
+        <label>Combustible
+          <select id="combustible">
+            <option value="g95">Gasolina 95</option>
+            <option value="diesel">Diésel</option>
+            <option value="g98">Gasolina 98</option>
+            <option value="dieselp">Diésel premium</option>
+            <option value="glp">GLP (autogás)</option>
+          </select>
+        </label>
+        <label>Litros a repostar <input id="litros" type="number" min="5" max="150" step="1" value="40"></label>
+        <label>Consumo (L/100 km) <input id="consumo" type="number" min="2" max="25" step="0.1" value="6.5"></label>
+      </div>
+
+      <div class="ubicacion">
+        <label>¿Dónde estás?
+          <div class="buscar">
+            <input id="origenTexto" type="text" placeholder="Dirección o ciudad" autocomplete="off">
+            <button id="btnUbicacion" type="button" title="Usar mi ubicación">📍 Mi ubicación</button>
+          </div>
+        </label>
+        <label>¿Vas a algún sitio? <small>(opcional: calcula el desvío sobre tu ruta)</small>
+          <input id="destinoTexto" type="text" placeholder="Destino (opcional)" autocomplete="off">
+        </label>
+      </div>
+
+      <details>
+        <summary>Más opciones</summary>
+        <div class="fila">
+          <label>Buscar hasta (km) <input id="radio" type="number" min="2" max="60" step="1" value="15"></label>
+          <label>¿Cuánto vale tu tiempo? (€/h) <input id="valorHora" type="number" min="0" max="200" step="1" value="0"></label>
+          <label>Rodeo de la carretera <input id="factor" type="number" min="1" max="2" step="0.05" value="1.3"></label>
+        </div>
+        <p class="nota">Las distancias se estiman en línea recta × «rodeo de la carretera» (1,3 ≈ ciudad). El tiempo
+          solo se cuenta si le pones valor.</p>
+      </details>
+
+      <button id="btnCalcular" class="principal" type="button">Calcular dónde me compensa</button>
+      <p id="estado" class="estado">Cargando precios oficiales…</p>
+    </section>
+
+    <section id="resultado" hidden>
+      <div id="veredicto" class="veredicto"></div>
+      <div id="trampa" class="trampa" hidden></div>
+      <div id="mapa"></div>
+      <h2>Ranking por coste real</h2>
+      <ol id="ranking" class="ranking"></ol>
+      <button id="btnCompartir" type="button" class="secundario">📤 Compartir resultado</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>Precios: <a href="https://geoportalgasolineras.es" target="_blank" rel="noopener">Ministerio para la Transición
+      Ecológica</a> (datos abiertos), actualizados cada hora. <span id="fechaDatos"></span></p>
+    <p>Todo se calcula en tu navegador: tu ubicación no sale de tu móvil. Búsqueda de direcciones con
+      <a href="https://nominatim.openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap</a>.</p>
+    <p><a href="https://github.com/djimenezdavid7-debug/gasolinera-que-compensa" target="_blank" rel="noopener">Código en GitHub</a> ·
+      Hecho por <a href="https://djimenezdavid7-debug.github.io" target="_blank" rel="noopener">David Jiménez</a></p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
