@@ -17,7 +17,18 @@ d.text((70, 385), "Calcula cuál te compensa DE VERDAD contando el desvío.", fo
 d.text((70, 432), "Gratis · sin registro · precios oficiales cada hora", font=f("segoeui.ttf", 34), fill=(213, 239, 228))
 d.rounded_rectangle([70, 520, 600, 585], radius=18, fill="white")
 d.text((95, 532), "Gasolinera que compensa", font=f("segoeuib.ttf", 34), fill=(11, 93, 67))
-d.text((W - 70, 552), "por David Jiménez", font=f("segoeui.ttf", 30), fill=(213, 239, 228), anchor="rm")
+foto = Path(__file__).resolve().parents[1] / "docs" / "autor.jpg"
+if foto.exists():  # foto redonda con borde blanco junto al nombre
+    tam = 96
+    ft = Image.open(foto).convert("RGB").resize((tam, tam), Image.LANCZOS)
+    mask = Image.new("L", (tam, tam), 0)
+    ImageDraw.Draw(mask).ellipse([0, 0, tam - 1, tam - 1], fill=255)
+    cx, cy = W - 70 - tam, 505
+    d.ellipse([cx - 4, cy - 4, cx + tam + 3, cy + tam + 3], fill="white")
+    im.paste(ft, (cx, cy), mask)
+    d.text((cx - 20, cy + tam // 2), "por David Jiménez", font=f("segoeuib.ttf", 30), fill="white", anchor="rm")
+else:
+    d.text((W - 70, 552), "por David Jiménez", font=f("segoeui.ttf", 30), fill=(213, 239, 228), anchor="rm")
 out = Path(__file__).resolve().parents[1] / "docs" / "og.png"
 im.save(out, optimize=True)
 print(out)

@@ -30,8 +30,9 @@ button { font: inherit; cursor: pointer; }
 /* ---------- cabecera ---------- */
 .hero { background: radial-gradient(120% 120% at 0% 0%, #13a374 0%, #0b5d43 55%, #083f2e 100%); color: #fff;
         padding: 22px 0 30px; border-radius: 0 0 28px 28px; }
+.foto-chip { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.7); }
 .autor-chip { display: inline-flex; align-items: center; gap: 8px; color: #e6fff4; text-decoration: none; font-size: .85rem;
-              background: rgba(255, 255, 255, .12); padding: 5px 12px 5px 6px; border-radius: 999px; }
+              background: rgba(255, 255, 255, .12); padding: 4px 8px 4px 4px; border-radius: 999px; }
 .autor-chip:hover { background: rgba(255, 255, 255, .2); }
 .in { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 5px; background: #fff;
       color: var(--azul-in); font-weight: 800; font-size: .75rem; }
@@ -129,8 +130,7 @@ h2 { font-size: 1.15rem; margin: 0; letter-spacing: -.01em; }
 .ejemplo { background: var(--tarjeta); border-radius: 16px; padding: 14px; font-size: .92rem; color: var(--suave);
            box-shadow: var(--sombra); margin: 10px 0 0; }
 .autor { display: flex; gap: 14px; background: var(--tarjeta); border-radius: 20px; padding: 18px; box-shadow: var(--sombra); }
-.avatar { flex: 0 0 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-weight: 800;
-          color: #fff; background: linear-gradient(135deg, #13a374, #0b5d43); }
+.avatar { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid var(--verde-claro); }
 .autor p { margin: 0 0 8px; font-size: .92rem; }
 .quien { font-size: 1rem !important; }
 .botones-autor { display: flex; flex-wrap: wrap; gap: 8px; }
