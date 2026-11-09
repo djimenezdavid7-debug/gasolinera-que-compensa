@@ -13,7 +13,7 @@ const titulo = (t) => limpiar(t).toLowerCase().replace(/(^|[\s\-/(])\p{L}/gu, (m
 let datos = null;   // {campos, estaciones, fecha}
 let origen = null;  // {lat, lon, texto}
 let mapa = null, capa = null, ultimo = null;
-const prefs = { combustible: "g95", litros: 40, consumo: 6.5 };
+const prefs = { combustible: "g95", litros: 40, consumo: 6.5, kmAno: 15000 };
 
 function estado(texto, error = false) {
   $("estado").textContent = texto;
@@ -25,6 +25,7 @@ function cargarPrefs() {
   try { Object.assign(prefs, JSON.parse(localStorage.getItem("gqc-prefs") || "{}")); } catch { /* sin almacenamiento */ }
   $("litros").value = String(prefs.litros).replace(".", ",");
   $("consumo").value = String(prefs.consumo).replace(".", ",");
+  $("kmAno").value = prefs.kmAno;
   document.querySelectorAll(".chips").forEach((g) => marcarChip(g, String(prefs[g.dataset.campo])));
 }
 function guardarPrefs() {
@@ -125,6 +126,8 @@ async function calcularYMostrar() {
     const l = num($("litros").value), c = num($("consumo").value);
     prefs.litros = l > 0 && l <= 150 ? l : 40;
     prefs.consumo = c > 0 && c <= 30 ? c : 6.5;
+    const k = num($("kmAno").value);
+    prefs.kmAno = k >= 1000 && k <= 200000 ? k : 15000;
     guardarPrefs();
     const res = calcular(estacionesDe(prefs.combustible), origen, destino, {
       litros: prefs.litros, consumo: prefs.consumo, radioKm: +$("radio").value || 15, valorHora: +$("valorHora").value || 0,
@@ -158,6 +161,9 @@ function pintar(res, destino) {
       <div class="cifra destacada"><b>${ahorro ? eur(res.ahorroVsCercana) : "✓"}</b>
         <span>${ahorro ? "ahorras vs. la más cercana" : "es también la más cercana"}</span></div>
     </div>
+    ${ahorro ? `<div class="anual">Si repostas así todo el año (<b>${prefs.kmAno.toLocaleString("es-ES")} km</b>):
+      <strong>${eur(res.ahorroVsCercana * (prefs.kmAno * opciones.consumo / 100) / opciones.litros)}</strong> de ahorro al año
+      frente a ir siempre a la de al lado.</div>` : ""}
     <a class="ir" href="${enlaceRuta(mejor, destino)}" target="_blank" rel="noopener">🧭 Llévame ahí</a>`;
 
   const trampa = $("trampa");
@@ -247,6 +253,7 @@ document.querySelectorAll(".chips").forEach((grupo) => grupo.addEventListener("c
 }));
 $("litros").addEventListener("click", (e) => e.stopPropagation());
 ["radio", "valorHora"].forEach((id) => $(id).addEventListener("change", calcularYMostrar));
+$("kmAno").addEventListener("input", recalcularPronto);
 $("destinoTexto").addEventListener("change", calcularYMostrar);
 $("btnUbicacion").addEventListener("click", miUbicacion);
 $("btnDireccion").addEventListener("click", mostrarDireccion);

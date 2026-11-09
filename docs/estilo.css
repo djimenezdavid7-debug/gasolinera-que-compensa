@@ -89,6 +89,9 @@ button { font: inherit; cursor: pointer; }
 .cifra.destacada { background: var(--verde-claro); }
 .cifra.destacada b { color: var(--verde-osc); font-size: 1.35rem; }
 @media (prefers-color-scheme: dark) { .cifra.destacada b { color: var(--verde); } }
+.anual { background: var(--verde-claro); border-radius: 14px; padding: 10px 12px; margin: -4px 0 14px; font-size: .9rem; }
+.anual strong { color: var(--verde-osc); font-size: 1.05rem; }
+@media (prefers-color-scheme: dark) { .anual strong { color: var(--verde); } }
 .ir { display: block; text-align: center; padding: 13px; border-radius: 14px; background: var(--verde); color: #fff;
       font-weight: 800; text-decoration: none; }
 @media (prefers-color-scheme: dark) { .ir { color: #06281c; } }
